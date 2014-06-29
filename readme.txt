@@ -31,7 +31,7 @@ Just install, activate and add the code into your template.
 2. Navigate to Plugins->Add New
 3. Search for "Vertical Related Posts" and click install
 4. Activate the plugin
-5. Place \'<?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?>\' into your template
+5. Place '<pre><?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?></pre>' into your template
 
 = Manual instalation =
 
@@ -39,13 +39,13 @@ Just install, activate and add the code into your template.
 2. Extract archive into wp-content/plugins folder
 3. Login into your admin panel and navigate to Plugins
 4. Activate the plugin
-5. Place \'<?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?>\' into your template
+5. Place '<pre><?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?></pre>' into your template
 
 == Frequently Asked Questions ==
 
 = I activated the plugin, why isn't it working ? =
 
-After activation, you have to add the code \'<?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?>\' into your template.
+After activation, you have to add the code '<pre><?php if (function_exists('displayVerticalRelatedPosts')) displayVerticalRelatedPosts(); ?></pre>' into your template.
 
 == Screenshots ==
 
