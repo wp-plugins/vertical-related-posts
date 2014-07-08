@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=corne
 Tags: wordpress, related posts, vertical, responsive, mobile friendly, light, white, sidebar, vertical related posts, posts, custom post types, pages
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 1.0.2
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,10 @@ After activation, you have to add the code <code><?php if (function_exists('disp
 2. Vertical Related Posts in action (screenshot taken from www.uncover-romania.com)
 
 == Changelog ==
+
+= 1.1 =
+* Added the ability to disable VRP from current page
+* Re-styled VRP Metabox
 
 = 1.0.2 =
 * Corrected CSS tags on settings page

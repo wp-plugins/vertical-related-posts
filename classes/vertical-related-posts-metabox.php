@@ -1,4 +1,7 @@
 <?php
+	/**
+	 * 							ADD BUTTON TO SHOW/HIDE RELATED POSTS ON EVERY PAGE
+	 */
 
 	if (!class_exists("VerticalRelatedPostsMetabox")):
 		class VerticalRelatedPostsMetabox
@@ -13,7 +16,7 @@
 			 */
 			public function __construct($settings)
 			{
-				self::$cc_vrp_options = $settings;
+				static::$cc_vrp_options = $settings;
 				/**
 				 * Hook into add_meta_boxes to register the plugin's metabox
 				 */
@@ -22,7 +25,7 @@
 				/**
 				 * Hook into save_post to save metebox's data
 				 */
-				add_action('save_post', array($this, 'cd_meta_box_save'));
+				add_action('save_post', array($this, 'saveVRPMetabox'));
 
 				/**
 				 * Load custom CSS for options page
@@ -57,7 +60,7 @@
 			    global $post;
 			    $values = get_post_custom($post->id);
 			    
-			    $numberOfPosts = self::$cc_vrp_options['defaultNumberOfPosts'];
+			    $numberOfPosts = static::$cc_vrp_options['defaultNumberOfPosts'];
 			    $availablePostTypes = get_post_types();
 			    if (isset($values['numberOfDisplayedPosts'])):
 				    $numberOfPosts = $values['numberOfDisplayedPosts'];  
@@ -66,49 +69,89 @@
 
 			  	$checked = 'off';
 			  	if (isset($values['customPostTypesToUse'])) $checked = $values['customPostTypesToUse'][0];
+
+			  	$disabled = 'off';
+			  	if (isset($values['disableVRPOnPage'])) $disabled = $values['disableVRPOnPage'][0];
 			   
 			    // We'll use this nonce field later on when saving.  
 			    wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' ); 
 			    ?> 
-			    <p> 
-			        <label for="numberOfDisplayedPosts">Number of Posts to display
-			        	<input type="number" style="width: 50px;" name="numberOfDisplayedPosts" id="numberOfDisplayedPosts" value="<?php echo $numberOfPosts; ?>" /> 
-			    	</label>
-			    </p>
+				
+				<div id="cc-vrp-wrapper">
+					<section class="cc-vrp-section">
+						<div class="cc-vrp-label">
+							Disable Vertical Related Posts for this page
+						</div>
+						<div class="cc-vrp-input">
+							<div class="onoffswitch" style="clear: right;">
+								<input style="display: none;" type="checkbox" name="disableVRPOnPage" class="onoffswitch-checkbox" id="disableVRPOnPage" <?php if ($disabled == "on") echo "checked" ?>>
+								<label class="onoffswitch-label" for="disableVRPOnPage">
+									<div class="onoffswitch-inner"></div>
+									<div class="onoffswitch-switch"></div>
+								</label>
+							</div>
+						</div>
+					</section>
 
-			    <p>
-			    	<div class="onoffswitch">
-			    		<input style="display: none;" type="checkbox" name="customPostTypesToUse" class="onoffswitch-checkbox" id="customPostTypesToUse" <?php if ($checked == "on") echo "checked" ?>>
-			    		<label class="onoffswitch-label" for="customPostTypesToUse">
-			    			<div class="onoffswitch-inner"></div>
-			    			<div class="onoffswitch-switch"></div>
-			    		</label>
-			    	</div>
-			    	<span>Enable custom post types&nbsp;&nbsp;&nbsp;</span>
-			    </p>
+					<section class="cc-vrp-section">
+						<div class="cc-vrp-label">
+							Number of posts to display
+						</div>
+						<div class="cc-vrp-input">
+							<input type="number" style="width: 50px;" name="numberOfDisplayedPosts" id="numberOfDisplayedPosts" value="<?php echo $numberOfPosts; ?>" /> 
+						</div>
+					</section>
+					
+					<section class="cc-vrp-section">
+						<div class="cc-vrp-label">
+							Only display specific post types
+						</div>
+						<div class="cc-vrp-input">
+							<div class="onoffswitch" style="clear: both;">
+								<input style="display: none;" type="checkbox" name="customPostTypesToUse" class="onoffswitch-checkbox" id="customPostTypesToUse" <?php if ($checked == "on") echo "checked" ?>>
+								<label class="onoffswitch-label" for="customPostTypesToUse">
+									<div class="onoffswitch-inner"></div>
+									<div class="onoffswitch-switch"></div>
+								</label>
+							</div>
+						</div>
+					</section>
 
-			    <p>
-			    	<label class="customPostTypesToUse" <?php if ($checked == "off") echo "style='display: none;'"; ?>>Post Types to use</label>
-			    	<div class="customPostTypesToUse" <?php if ($checked == "off") echo "style='display: none;'" ?> style="overflow: scroll; height: 200px; width: 220px;">
-					    <?php
-					    foreach ($availablePostTypes as $type):
-					    	$typeName = get_post_type_object($type);
-							$typeName = $typeName->label;
-					    	?>
-					    	<label for="<?php echo $type ?>">
-					    		<input type="checkbox" name='<?php echo $type ?>' id='<?php echo $type ?>' value="<?php echo $type ?>" <?php if (array_key_exists('checkedTypes', $values) && strpos($values['checkedTypes'][0], $type)) echo 'checked'?>>
-					    		<?php echo $typeName ?><br>
-					    	</label>
-					    <?php endforeach; ?>
-					</div>
-				</p>
+					<section class="cc-vrp-section customPostTypesToUse" <?php if ($checked == "off") echo "style='display: none;'"; ?>>
+						<div class="cc-vrp-label">
+							Post Types to use
+						</div>
+						<div class="cc-vrp-input">
+							<?php
+							foreach ($availablePostTypes as $type):
+								$typeName = get_post_type_object($type);
+								$typeName = $typeName->label;
+								?>
+								<label for="<?php echo $type ?>">
+									<input type="checkbox" name='<?php echo $type ?>' id='<?php echo $type ?>' value="<?php echo $type ?>" <?php if (array_key_exists('checkedTypes', $values) && strpos($values['checkedTypes'][0], $type)) echo 'checked'?>>
+									<?php echo $typeName ?><br>
+								</label>
+								<!-- <div class="onoffswitch" style="clear: both; float: left">
+									<input style="display: none;" type="checkbox" name="<?php echo $type ?>" class="onoffswitch-checkbox" id="<?php echo $type ?>" <?php if (array_key_exists('checkedTypes', $values) && strpos($values['checkedTypes'][0], $type)) echo 'checked'?>>
+									<label class="onoffswitch-label" for="<?php echo $type ?>">
+										<div class="onoffswitch-inner"></div>
+										<div class="onoffswitch-switch"></div>
+									</label>
+								</div>
+								<label style="display: inline-block; padding-left: 10px;" for="<?php echo $type ?>">
+									<?php echo $typeName ?>
+								</label><br> -->
+							<?php endforeach; ?>
+						</div>	
+					</section>
+				</div>
 				<?php
 			}
 
 			/**
 			 * Save Metabox data
 			 */
-			function cd_meta_box_save($post_id)
+			function saveVRPMetabox($post_id)
 			{
 				$availablePostTypes = get_post_types();
 
@@ -121,7 +164,11 @@
 			    // if our current user can't edit this post, bail
 			    if( !current_user_can( 'edit_post' ) ) return $post_id;
 			      			      
-			    // Make sure your data is set before trying to save it
+			    // get wherever to display the related posts or not
+			   	$display = isset($_POST['disableVRPOnPage']) ? "on" : "off";
+			   	update_post_meta($post_id, 'disableVRPOnPage', $display);
+
+			    // Get number of posts to display
 			    if (isset($_POST['numberOfDisplayedPosts'])) update_post_meta($post_id, 'numberOfDisplayedPosts', wp_kses( $_POST['numberOfDisplayedPosts']));
 			    	else update_post_meta($post_id, 'numberOfDisplayedPosts', $this->cc_vrp_options['defaultNumberOfPosts']);
 			

@@ -147,30 +147,37 @@
 
 				// Main VRP block
 				$numberOfAvailablePosts = (have_posts()) ? sizeof($the_query->posts) : 0;
-				?>
-				<div class="cc-vertical-related-posts">
-					<h1 class="cc-vrp-title"><?php echo $this->cc_vrp_options['relatedPostsTitle'] ?></h1>
-					<?php
-					/* Display the Related Posts */
-					if ($the_query->have_posts()): 
-						while ($the_query->have_posts()):
-							$the_query->the_post();
-							$this->displayArticle();
-						endwhile; 
-					endif;
 
-				// if there aren't enough posts, add random ones
-				if ($numberOfPosts > $numberOfAvailablePosts)
-					if ($this->cc_vrp_options['fillWithRandomPosts'] == 'on'):
-						$the_query = $this->getQuery($numberOfPosts-$numberOfAvailablePosts, 'rand', $this->cc_vrp_options['checkedPostTypes'], array(get_the_ID(), $postsArray), $postsArray, 'publish');
-						if ($the_query->have_posts()):
+				// display VRP on page only if allowed
+				array_key_exists('disableVRPOnPage', $this->values) ? $disableVRPOnPage = $this->values['disableVRPOnPage'][0] : $disableVRPOnPage = "off";
+				if ($disableVRPOnPage == "off"):
+					?>
+					<div class="cc-vertical-related-posts">
+						<h1 class="cc-vrp-title"><?php echo $this->cc_vrp_options['relatedPostsTitle'] ?></h1>
+						<?php
+						// Display the Related Posts
+						if ($the_query->have_posts()): 
 							while ($the_query->have_posts()):
 								$the_query->the_post();
 								$this->displayArticle();
-							endwhile;
+							endwhile; 
 						endif;
-					endif;
-				?></div><?php
+
+						// if there aren't enough posts, add random ones
+						if ($numberOfPosts > $numberOfAvailablePosts)
+							if ($this->cc_vrp_options['fillWithRandomPosts'] == 'on'):
+								$the_query = $this->getQuery($numberOfPosts-$numberOfAvailablePosts, 'rand', $this->cc_vrp_options['checkedPostTypes'], array(get_the_ID(), $postsArray), $postsArray, 'publish');
+								if ($the_query->have_posts()):
+									while ($the_query->have_posts()):
+										$the_query->the_post();
+										$this->displayArticle();
+									endwhile;
+								endif;
+							endif;
+					?>
+					</div>
+				<?php
+				endif;
 				// Reset the WP_Query
 				wp_reset_query();
 			}
