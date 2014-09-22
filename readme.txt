@@ -13,7 +13,9 @@ The plugin that displays related posts vertically.
 == Description ==
 
 Increase your visitors engagement by providing them with related articles from your website.
+
 VRP uses tags to find related posts and then displays them according to your conditions.
+
 Being responsive, it will automatically adjust to your layout. So you can insert VRP anywhere in your template
 
 = Features =
