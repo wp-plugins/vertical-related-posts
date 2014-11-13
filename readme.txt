@@ -64,6 +64,9 @@ After activation, you have to add the code <code><?php if (function_exists('disp
 
 == Changelog ==
 
+= 1.2.5 - 11.14.2014 =
+* fix: SEO friendly & W3C compliant
+
 = 1.2 - 9.22.2014 =
 * new: choose what to be displayed (title/featured image/excerpt)
 * fix: custom css tags on settings page
