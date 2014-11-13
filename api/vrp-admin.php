@@ -342,9 +342,9 @@
 					<h4>Add this CSS tags to your theme to customize the layout of Vertical Related Posts</h4>
 					<pre>
 	div.cc-vertical-related-posts {}
-	h1.cc-vrp-title {}
-	h1.cc-vrp-article-title {}
-	div.cc-vertical-related-posts p {}
+	h2.cc-vrp-title {}
+	h3.cc-vrp-article-title {}
+	p.cc-vertical-related-posts {}
 					</pre>
 				</div>
 				<?php
