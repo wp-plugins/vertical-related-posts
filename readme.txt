@@ -31,7 +31,7 @@ Being responsive, it will automatically adjust to your layout. So you can insert
 
 Just install, activate and add the code into your template.
 
-If you have any suggestions/requests, don't hesitate to contact me at <code><a href="mailto:corneliucirlan@gmail.com">corneliucirlan@gmail.com</a></code>
+If you have any suggestions/requests, don't hesitate to contact me at <a href="mailto:corneliucirlan@gmail.com">corneliucirlan@gmail.com</a>
 
 == Installation ==
 
