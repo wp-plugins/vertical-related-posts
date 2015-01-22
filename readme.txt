@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=corne
 Tags: wordpress, related posts, vertical, responsive, mobile friendly, light, white, sidebar, vertical related posts, posts, custom post types, pages
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,9 @@ After activation, you have to add the code <code><?php if (function_exists('disp
 2. Vertical Related Posts in action (screenshot taken from www.uncover-romania.com)
 
 == Changelog ==
+
+= 1.2.6 - 1.22.2015 =
+* fix: initial selected post types
 
 = 1.2.5 - 11.14.2014 =
 * fix: SEO friendly & W3C compliant

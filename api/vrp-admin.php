@@ -299,6 +299,13 @@
 			// Post Types to use
 			public function getVRPPostTypes($options)
 			{
+				// s:4:"post"
+				//var_dump($options);
+				//var_dump(unserialize($options));
+				if ($options == "post"):
+					$options = array();
+					$options[] = "post";
+				endif;
 				?>
 				<div>
 					<?php

@@ -19,7 +19,7 @@
 	@define('VRP_NUMBER_OF_POSTS', 3); // default number of posts to be displayed
 	@define('VRP_DEFAULT_CHECKBOX', 'on'); // load the default stylesheet
 	@define('VRP_FILL_WITH_RANDOM_POSTS', 'on'); // fill with random posts
-	@define('VRP_CHECKED_POST_TYPES', array('post')); // post types enabled by default
+	@define('VRP_CHECKED_POST_TYPES', 'post'); // post types enabled by default
 	@define('VRP_FEATURED_SIZE', 'medium'); // featured image default size
 
 
@@ -59,6 +59,10 @@
 	if ($VRPSettings['loadDefaultCSS'] == 'on')
 		add_action('wp_enqueue_scripts', function() {
 			global $VRPSettings;
+			if ($VRPSettings['checkedPostTypes'] == "post"):
+					$VRPSettings['checkedPostTypes'] = array();
+					$VRPSettings['checkedPostTypes'][] = "post";
+				endif;
 			if (in_array(get_post_type(), $VRPSettings['checkedPostTypes']))
 				wp_enqueue_style('cc-vrp-style', VRP_URI.'css/vertical-related-posts.css', array(), VRP_VERSION);
 		});

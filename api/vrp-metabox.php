@@ -43,8 +43,11 @@
 			 */
 			public static function addRelatedMetaBox()
 			{
-				//var_dump(self::$cc_vrp_options);
-			    // get current post's type
+				if (self::$cc_vrp_options['checkedPostTypes'] == "post"):
+					self::$cc_vrp_options['checkedPostTypes'] = array();
+					self::$cc_vrp_options['checkedPostTypes'][] = "post";
+				endif;
+				// get current post's type
 				if (in_array(get_post_type(get_the_ID()), self::$cc_vrp_options['checkedPostTypes'])):
 					$postType = get_post_type(get_the_ID());
 					add_meta_box('vertical-related-posts', 'Vertical Related Posts', array(__CLASS__, 'verticalRelatedPostsMetaBox'), $postType, 'normal', 'default' );  
